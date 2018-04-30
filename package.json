@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "description": "A simple Wordpress Plugin using React",
   "main": " ",
+  "repository": "https://github.com/grekinsky/wordpress-react-comment-plugin",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "NODE_ENV=development webpack --colors --progress --watch",
     "build": "NODE_ENV=production webpack -p --progress"
   },
-  "author": "Greco Rubio",
-  "license": "ISC",
+  "author": "Greco Rubio <greco@toptal.com>",
+  "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
