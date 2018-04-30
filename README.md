@@ -12,7 +12,7 @@ npm install
 ## Build for production
 
 ```
-npm build
+npm run build
 ```
 
 ## Run docker-compose for local testing
