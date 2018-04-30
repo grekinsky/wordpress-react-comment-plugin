@@ -1,0 +1,8 @@
+# Productive files
+/build
+
+# Dependency directory
+/node_modules
+
+# OSX files
+.DS_Store
