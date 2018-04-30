@@ -16,7 +16,8 @@ npm build
 ```
 
 ## Run docker-compose for local testing
-> Docker is required
+
+Requirements: Docker and Docker Compose
 
 ```
 docker-compose up
