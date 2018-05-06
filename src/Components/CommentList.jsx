@@ -17,7 +17,7 @@ class CommentList extends React.Component {
         this.addComment = this.addComment.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         // fetch coments when component is mounted, right before initial render
         this.refreshComments();
     }
