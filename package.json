@@ -1,5 +1,5 @@
 {
-  "name": "wordpress-react-plugin",
+  "name": "wordpress-react-comment-plugin",
   "version": "1.0.0",
   "description": "A simple Wordpress Plugin using React",
   "main": " ",

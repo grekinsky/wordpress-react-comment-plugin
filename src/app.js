@@ -10,7 +10,7 @@ const wpReactCommentElements = document.querySelectorAll('.wp-react-comment-app'
 wpReactCommentElements.forEach((el) => {
     // get attributes passed from WP
     const postId = el.getAttribute('data-wp-post-id');
-    const userId = parseInt(el.getAttribute('data-wp-user-id'), 10);
+    const userId = el.getAttribute('data-wp-user-id');
     // render the CommentList react component in the current element
     ReactDom.render(<CommentList postId={postId} userId={userId} />, el);
 });

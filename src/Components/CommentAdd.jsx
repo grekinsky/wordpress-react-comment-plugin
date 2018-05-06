@@ -22,6 +22,9 @@ const CommentAdd = ({userId, visible, addComment, setVisible}) => {
         );
     }
 
+    // variable that will hold the reference of the textarea element
+    let commentElement;
+
     // show the 'add comment' form
     return (
         <div style={{
@@ -36,7 +39,7 @@ const CommentAdd = ({userId, visible, addComment, setVisible}) => {
                     ref={
                         (r) => {
                             // add a reference to the textarea html element
-                            this.comment = r;
+                            commentElement = r;
                         }
                 }></textarea>
             </div>
@@ -45,7 +48,7 @@ const CommentAdd = ({userId, visible, addComment, setVisible}) => {
                     marginRight: '10px',
                 }} onClick={
                     () => {
-                        const commentValue = this.comment.value;
+                        const commentValue = commentElement.value;
                         // ignore if no value was specified
                         if (!commentValue) return;
                         // execute method from the parent to add a comment
@@ -67,7 +70,7 @@ const CommentAdd = ({userId, visible, addComment, setVisible}) => {
 };
 
 CommentAdd.propTypes = {
-    userId: PropTypes.number.isRequired,
+    userId: PropTypes.string.isRequired,
     setVisible: PropTypes.func.isRequired,
     addComment: PropTypes.func.isRequired,
     visible: PropTypes.bool,

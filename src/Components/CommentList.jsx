@@ -135,7 +135,7 @@ class CommentList extends React.Component {
 
 CommentList.propTypes = {
     postId: PropTypes.string.isRequired,
-    userId: PropTypes.number.isRequired,
+    userId: PropTypes.string.isRequired,
 };
 
 export default CommentList;
