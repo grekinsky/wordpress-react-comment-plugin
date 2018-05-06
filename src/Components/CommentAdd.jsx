@@ -1,50 +1,73 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class CommentAdd extends React.Component {
-    render() {
-        const {user, visible, addComment, setVisible} = this.props;
-        if( !user ) return null;
-        if (!visible) {
-            return (
-                <div
-                style={{
-                    marginBottom: '20px',
-                }}>
-                    <button onClick={() => {
-                        setVisible(true);
-                    }}>Add Comment</button>
-                </div>
-            );
-        }
+const CommentAdd = ({userId, visible, addComment, setVisible}) => {
+    // show nothing if user is not logged
+    if( !userId ) return null;
+
+    // if not visible then show only a button to activate the 'add comment' form
+    if (!visible) {
         return (
-            <div style={{
+            <div
+            style={{
                 marginBottom: '20px',
             }}>
-                <div style={{
-                    marginBottom: '10px',
-                }}>
-                    <textarea autoFocus placeholder="Comment" ref={(r) => {this.comment = r;}}></textarea>
-                </div>
-                <div>
-                    <button style={{
-                        marginRight: '10px',
-                    }} onClick={() => {
-                        if (!this.comment.value) return;
-                        addComment(this.comment.value);
-                    }}>Save</button>&nbsp;
-                    <a href="#" onClick={(e) => {
-                        e.preventDefault();
-                        setVisible(false);
-                    }}>Cancel</a>
-                </div>
+                <button onClick={
+                    () => {
+                        // execute method from the parent to show the 'add comment' form
+                        setVisible(true);
+                    }
+                }>Add Comment</button>
             </div>
         );
     }
-}
+
+    // show the 'add comment' form
+    return (
+        <div style={{
+            marginBottom: '20px',
+        }}>
+            <div style={{
+                marginBottom: '10px',
+            }}>
+                <textarea
+                    autoFocus
+                    placeholder="Comment"
+                    ref={
+                        (r) => {
+                            // add a reference to the textarea html element
+                            this.comment = r;
+                        }
+                }></textarea>
+            </div>
+            <div>
+                <button style={{
+                    marginRight: '10px',
+                }} onClick={
+                    () => {
+                        const commentValue = this.comment.value;
+                        // ignore if no value was specified
+                        if (!commentValue) return;
+                        // execute method from the parent to add a comment
+                        addComment(commentValue);
+                    }
+                }>Save</button>
+
+                <a href="#" onClick={
+                    (e) => {
+                        // prevent the default link behavior
+                        e.preventDefault();
+                        // execute method from the parent to hide the 'add comment' form
+                        setVisible(false);
+                    }
+                }>Cancel</a>
+            </div>
+        </div>
+    );
+};
 
 CommentAdd.propTypes = {
-    user: PropTypes.object,
+    userId: PropTypes.number.isRequired,
     setVisible: PropTypes.func.isRequired,
     addComment: PropTypes.func.isRequired,
     visible: PropTypes.bool,

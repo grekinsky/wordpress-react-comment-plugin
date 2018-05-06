@@ -6,58 +6,39 @@ import CommentAdd from './CommentAdd';
 class CommentList extends React.Component {
     constructor(props) {
         super(props);
+        // set initial state
         this.state = {
             comments: [],
-            user: null,
             loadingComments: false,
-            loadingUser: false,
             addCommentVisible: false,
         };
+        // we have to bind this to the current instance because the function
+        // will be executed from a child component
         this.addComment = this.addComment.bind(this);
     }
 
     componentWillMount() {
-        this.fetchLoggedUser();
+        // fetch coments when component is mounted, right before initial render
         this.refreshComments();
     }
 
-    fetchLoggedUser() {
-        this.setState({
-            loadingUser: true,
-            addCommentVisible: false,
-        });
-        if (!this.props.userId) {
-            this.setState({
-                user: null,
-                loadingUser: false,
-            });
-            return;
-        }
-        jQuery.getJSON(
-            REACT_COMMENT.root + 'wp/v2/users/' + this.props.userId,
-            null,
-            (data) => { // success callback
-                this.setState({
-                    user: data,
-                    loadingUser: false,
-                });
-            }
-        );
-    }
-
     refreshComments() {
+        const {postId} = this.props;
+        // begin loading
         this.setState({
             loadingComments: true,
             addCommentVisible: false,
         });
+        // get comments from local WP API
         jQuery.getJSON(
             REACT_COMMENT.root + 'wp/v2/comments',
             {
-                post: this.props.postId,
-                order: 'asc',
-                orderby: 'id',
+                post: postId,
+                order: 'desc',
+                orderby: 'date_gmt',
             },
             (data) => { // success callback
+                // finish loading
                 this.setState({
                     comments: data,
                     loadingComments: false,
@@ -69,23 +50,22 @@ class CommentList extends React.Component {
     addComment(comment) {
         const {postId, userId} = this.props;
         if (!userId) return;
-        const {user} = this.state;
         jQuery.ajax({
             type: 'POST',
             url: REACT_COMMENT.root + 'wp/v2/comments',
             beforeSend: function ( xhr ) {
+                // we have to send the nonce to prevent CSRF (Cross-site request forgery)
                 xhr.setRequestHeader( 'X-WP-Nonce', REACT_COMMENT.nonce );
             },
-            data: JSON.stringify({
+            data: JSON.stringify({ // data to send
                 parent: 0,
                 post: postId,
                 author: userId,
-                author_name: user.name,
-                author_email: user.email,
-                author_url: user.website,
                 content: comment,
+                date: new Date().toISOString(),
             }),
             success: () => { // success callback
+                // refresh comments to display the latest
                 this.refreshComments();
             },
             contentType: 'application/json; charset=utf-8',
@@ -94,7 +74,10 @@ class CommentList extends React.Component {
     }
 
     render() {
-        if (this.state.loadingComments || this.state.loadingUser) {
+        const {userId} = this.props;
+
+        // show loader if loadingComments is true
+        if (this.state.loadingComments) {
             return (
                 <span style={{
                     borderTop: '1px solid #999',
@@ -106,6 +89,8 @@ class CommentList extends React.Component {
                 </span>
             );
         }
+
+        // show the comment list
         return (
             <div style={{
                 borderTop: '1px solid #999',
@@ -121,11 +106,13 @@ class CommentList extends React.Component {
                         });
                     }}
                     addComment={this.addComment}
-                    user={this.state.user}
+                    userId={userId}
                 />
+
                 <span>
                     <strong>{this.state.comments.length}</strong> comments:
                 </span>
+
                 <ul
                     style={{
                         listStyle: 'none',
@@ -134,7 +121,11 @@ class CommentList extends React.Component {
                     }}
                 >
                     {this.state.comments.map((comment, i, a) => (
-                        <CommentItem key={comment.id} comment={comment} isLast={i < a.length - 1} />
+                        <CommentItem
+                            key={comment.id}
+                            comment={comment}
+                            isLast={i < a.length - 1}
+                        />
                     ))}
                 </ul>
             </div>
@@ -143,7 +134,6 @@ class CommentList extends React.Component {
 }
 
 CommentList.propTypes = {
-    wpId: PropTypes.string.isRequired,
     postId: PropTypes.string.isRequired,
     userId: PropTypes.number.isRequired,
 };

@@ -1,4 +1,9 @@
-docker-compose.yml
 node_modules
+src
 .git
 .gitignore
+.babelrc
+docker-compose.yml
+package.json
+package-lock.json
+webpack.config.js
