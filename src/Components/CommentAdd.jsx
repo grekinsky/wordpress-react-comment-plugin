@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const CommentAdd = ({userId, visible, addComment, setVisible}) => {
-    // show nothing if user is not logged
+    // don't show if user is not logged
     if( !userId ) return null;
 
     // if not visible then show only a button to activate the 'add comment' form
