@@ -4,7 +4,6 @@ import TimeAgo from 'react-timeago';
 
 const CommentItem = ({comment, isLast}) => (
     <li
-    key={comment.id}
     style={{
         borderBottom: isLast ? '1px solid #EEEEEE' : '',
         margin: '0',

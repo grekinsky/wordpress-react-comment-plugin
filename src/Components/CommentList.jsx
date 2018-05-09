@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import CommentItem from './CommentItem';
 import CommentAdd from './CommentAdd';
 
-// show comments or loader if loading
-const CommentList = ({comments, loading}) => loading ? (
+// show comments or loader if is Loading
+const CommentList = ({comments, isLoading}) => isLoading ? (
     <span style={{
         borderTop: '1px solid #999',
         fontSize: '14px',
@@ -32,7 +32,7 @@ const CommentList = ({comments, loading}) => loading ? (
 );
 
 CommentList.propTypes = {
-    loading: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
     comments: PropTypes.array.isRequired,
 };
 

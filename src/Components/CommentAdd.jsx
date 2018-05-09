@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const CommentAdd = ({userId, visible, addComment, setVisible}) => {
+const CommentAdd = ({userId, isVisible, addComment, setVisible}) => {
     // don't show if user is not logged
-    if( !userId ) return null;
+    if( userId === '0' ) return null;
 
-    // if not visible then show only a button to activate the 'add comment' form
-    if (!visible) {
+    // if is not visible then show only a button to activate the 'add comment' form
+    if (!isVisible) {
         return (
             <div
             style={{
@@ -71,9 +71,9 @@ const CommentAdd = ({userId, visible, addComment, setVisible}) => {
 
 CommentAdd.propTypes = {
     userId: PropTypes.string.isRequired,
+    isVisible: PropTypes.bool,
     setVisible: PropTypes.func.isRequired,
     addComment: PropTypes.func.isRequired,
-    visible: PropTypes.bool,
 };
 
 export default CommentAdd;

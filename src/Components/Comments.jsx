@@ -9,8 +9,8 @@ class Comments extends React.Component {
         // set initial state
         this.state = {
             comments: [],
-            loadingComments: false,
-            addCommentVisible: false,
+            isLoading: false,
+            isAddCommentVisible: false,
         };
         // we have to bind this to the current instance because the function
         // will be executed from a child component
@@ -26,8 +26,8 @@ class Comments extends React.Component {
         const {postId} = this.props;
         // begin loading
         this.setState({
-            loadingComments: true,
-            addCommentVisible: false,
+            isLoading: true,
+            isAddCommentVisible: false,
         });
         // get comments from local WP API
         jQuery.getJSON(
@@ -41,7 +41,7 @@ class Comments extends React.Component {
                 // finish loading
                 this.setState({
                     comments: data,
-                    loadingComments: false,
+                    isLoading: false,
                 });
             }
         );
@@ -75,7 +75,7 @@ class Comments extends React.Component {
 
     render() {
         const {userId} = this.props;
-        const {comments, loadingComments, addCommentVisible} = this.state;
+        const {comments, isLoading, isAddCommentVisible} = this.state;
         // show the comment list
         return (
             <div style={{
@@ -85,21 +85,21 @@ class Comments extends React.Component {
                 marginTop: '40px',
             }}>
                 <CommentAdd
-                    visible={addCommentVisible}
+                    userId={userId}
+                    isVisible={isAddCommentVisible}
                     setVisible={(visibility) => {
                         this.setState({
-                            addCommentVisible: visibility,
+                            isAddCommentVisible: visibility,
                         });
                     }}
                     addComment={this.addComment}
-                    userId={userId}
                 />
 
                 <span>
                     <strong>{comments.length}</strong> comments:
                 </span>
 
-                <CommentList comments={comments} loading={loadingComments} />
+                <CommentList comments={comments} isLoading={isLoading} />
             </div>
         );
     }
