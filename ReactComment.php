@@ -28,11 +28,15 @@ function wpprc_enqueue_scripts() {
 		)
 	);
 }
+// add necessary scripts
+add_action( 'wp_enqueue_scripts', 'wpprc_enqueue_scripts' );
 
 // return an empty file to replace comments
 function wpprc_empty_comments_template() {
     return dirname( __FILE__ ) . '/includes/empty-comments-template.php';
 }
+// replace default comments template with an empty file
+add_filter( 'comments_template', 'wpprc_empty_comments_template', 20 );
 
 // add the placeholder for the react component
 function wpprc_component( $content ) {
@@ -50,12 +54,5 @@ function wpprc_component( $content ) {
     }
     return $content;
 }
-
-// add necessary scripts
-add_action( 'wp_enqueue_scripts', 'wpprc_enqueue_scripts' );
-
-// replace default comments template with an empty file
-add_filter( 'comments_template', 'wpprc_empty_comments_template', 20 );
-
 // add the html element at the end of the page
 add_filter( 'the_content', 'wpprc_component', 999999 );

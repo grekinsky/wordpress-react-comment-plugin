@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CommentItem from './CommentItem';
-import CommentAdd from './CommentAdd';
 
 // show comments or loader if is Loading
 const CommentList = ({comments, isLoading}) => isLoading ? (

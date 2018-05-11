@@ -33,7 +33,6 @@ const CommentItem = ({comment, isLast}) => (
                 style={{
                     fontSize: '14px',
                 }}
-                key={comment.id}
                 dangerouslySetInnerHTML={{__html: comment.content.rendered}} />
         </div>
     </li>
